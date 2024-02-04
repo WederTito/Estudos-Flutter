@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:teste/screens/login_screen.dart';
+import 'package:teste/services/auth_service.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _confirmaSenhaController =TextEditingController();
+  final TextEditingController _confirmaSenhaController =
+      TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
+
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +54,38 @@ class RegisterScreen extends StatelessWidget {
                       decoration: InputDecoration(hintText: 'Confirmar Senha'),
                     ),
                     SizedBox(height: 16),
-                    ElevatedButton(onPressed: () {
-                      if (_senhaController.text == _confirmaSenhaController.text){
-                        /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()
-                          )); */
-                      }
-                    }, child: Text('Cadastrar')),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (_senhaController.text ==
+                              _confirmaSenhaController.text) {
+                            authService
+                                .cadastrarUsuario(
+                              email: _emailController.text,
+                              senha: _senhaController.text,
+                              nome: _nomeController.text,
+                            )
+                                .then((String? erro) {
+                              if (erro != null) {
+                                final snackBar = SnackBar(
+                                  content: Text(erro),
+                                  backgroundColor: Colors.red,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                Navigator.pop(context);
+                              }
+                            });
+                          } else {
+                            const snackBar = SnackBar(
+                              content: Text('As senhas não correspondem'),
+                              backgroundColor: Colors.red,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
+                        child: Text('Cadastrar')),
                     SizedBox(height: 16),
                   ],
                 ),
