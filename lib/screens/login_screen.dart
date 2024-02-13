@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teste/screens/register_screen.dart';
+import 'package:teste/screens/reset_password_modal.dart';
 import 'package:teste/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -70,6 +71,16 @@ class LoginScreen extends StatelessWidget {
                                   ));
                             },
                             child: Text('Não tem cadastro, crie aqui.')),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return PasswordresetModal();
+                                });
+                          },
+                          child: Text('Esqueceu a senha?'),
+                        )
                       ],
                     ),
                   )
