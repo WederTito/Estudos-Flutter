@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teste/screens/register_screen.dart';
 import 'package:teste/screens/reset_password_modal.dart';
 import 'package:teste/services/auth_service.dart';
@@ -60,7 +62,10 @@ class LoginScreen extends StatelessWidget {
                             child: Text('Entrar')),
                         SizedBox(height: 16),
                         ElevatedButton(
-                            onPressed: () {}, child: Text('Entrar com Google')),
+                            onPressed: () {
+                              signWithGoogle();
+                            },
+                            child: Text('Entrar com Google')),
                         SizedBox(height: 16),
                         TextButton(
                             onPressed: () {
@@ -87,5 +92,17 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
             )));
+  }
+
+  Future<UserCredential> signWithGoogle() async {
+
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleAuth =
+    await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
