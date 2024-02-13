@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initStance() {
     super.initState();
 
+    //setuptFCM();
     refresh();
   }
 
@@ -233,3 +234,36 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 }
+/* setuptFCM() async {
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
+}*/

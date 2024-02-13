@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:teste/screens/home_screen.dart';
 import 'package:teste/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+ // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(MyApp());
 }
@@ -56,4 +59,10 @@ class RoteadorTelas extends StatelessWidget {
       }
     });
   }
+  /* @pragma('vm:entry-point')
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    await Firebase.initializeApp();
+
+    print('### Handling a background message ${message.messageId}');
+  }*/
 }
